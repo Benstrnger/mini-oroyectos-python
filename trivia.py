@@ -4,21 +4,36 @@ def jugar_trivia(preguntas):
         correcta = pregunta["respuesta_correcta"]
         texto_correcto = pregunta["opciones"][correcta]
 
-        print(f"La Pregunta es: {pregunta.get('pregunta')}")
-        print()
-        for opcion in pregunta.get("opciones").items():
-            print(f"{opcion[0]}: {opcion[1]}")
-        respuesta_usuario = input("Ingrese la letra de su respuesta:\n >>>").upper()
-        if respuesta_usuario not in ["A", "B", "C", "D"]:
-            continue
+        mostrar_pregunta(pregunta)
+
+        respuesta_usuario = obtener_respuesta()
+        if verificar_respuesta(respuesta_usuario, correcta):
+            aciertos += 1
+            print(f"Bien Hecho, acertaste.\nTu puntaje Actual es: {aciertos}")
         else:
-            if respuesta_usuario == pregunta.get("respuesta_correcta"):
-                aciertos += 1
-                print(f"Bien Hecho, acertaste.\nTu puntaje Actual es: {aciertos}")
-            else:
-                print(f"Incorrecto, La respuesta correcta era: {correcta}: {texto_correcto}")
+            print(f"Incorrecto, La respuesta correcta era: ({correcta}: {texto_correcto})")
     print(f"\n🎉 Trivia finalizada. Aciertos totales: {aciertos}/{len(preguntas)}")
 
+def mostrar_pregunta(pregunta):
+    print(f"La Pregunta es: {pregunta['pregunta']}")
+    print()
+    for opcion in pregunta.get("opciones").items():
+        print(f"{opcion[0]}: {opcion[1]}")
+
+def obtener_respuesta():
+    while True:
+        respuesta = input("Ingrese la letra de su respuesta:\n >>>").upper()
+        if respuesta in ["A", "B", "C", "D"]:
+            return respuesta
+        else:
+            print("Respuesta inválida. Ingrese A, B, C o D.")
+
+
+def verificar_respuesta(respuesta_usuario, respuesta_correcta):
+    return respuesta_usuario == respuesta_correcta
+
+
+    
                     
 preguntas = [
     {
